@@ -15,7 +15,7 @@
 
 #include <fstream>
 #include <string>
-#include "double_array.hpp"
+#include "../include/double_array.hpp"
 #include "profile.hpp"
 using namespace std;
 
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]){
   }
 */
   std::vector<std::string> res;
-  da.common_prefix_search("zoologicallyazoo", res);
+  da.extract_all_matched("zoo", res);
   for(size_t i = 0; i < res.size(); i++){
     std::cout << res[i] << std::endl;
   }

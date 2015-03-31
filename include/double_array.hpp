@@ -82,7 +82,7 @@ public:
       const char *current_ptr = str + current_idx;
       if(*current_ptr == '\0') break;
       common_prefix_search(current_ptr, buf_res_len, buf_res_id);
-      for(size_t i = 0; i < res_len.size(); i++){
+      for(size_t i = 0; i < buf_res_len.size(); i++){
         res_offset.push_back(current_idx);
         res_len.push_back(buf_res_len[i]); 
         res_id.push_back(buf_res_id[i]); 
