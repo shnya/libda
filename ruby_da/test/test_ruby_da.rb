@@ -8,9 +8,7 @@ class TestRubyDa < Minitest::Test
 
   def test_insert
     trie = RubyDa::Trie.new
-    trie.insert("日本", 1)
-    trie.insert("日本の夜明け", 2)
-    trie.insert("日本の夜明け前", 2)
+    trie.build(["日本", "日本の夜明け", "日本の夜明け前"])
     puts trie.common_prefix_search("日本の夜明けは明るい")
   end
 end
