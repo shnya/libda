@@ -341,7 +341,7 @@ public:
   }
 
   bool load(std::istream &is){
-    size_t siz_ = is.seekg(0,std::ios::end).tellg();
+    size_t siz_ = static_cast<size_t>(is.seekg(0,std::ios::end).tellg());
     if(is.fail()) return false;
     array_.resize(siz_ / sizeof(node));
     is.seekg(0, std::ios::beg);
