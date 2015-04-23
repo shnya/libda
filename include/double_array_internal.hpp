@@ -49,7 +49,7 @@ class DoubleArrayInternal {
       array_[pos].check = base;
     }else{
       int i = empty_head();
-      int n = array_.size();
+      int n = static_cast<int>(array_.size());
       while(i < n){
         if(pos == -array_[i].check) break;
         i = -array_[i].check;
@@ -66,7 +66,7 @@ class DoubleArrayInternal {
       empty_head() = pos;
     }else{
       int i = empty_head();
-      int n = array_.size();
+      int n = static_cast<int>(array_.size());
       while(i < n){
         if(i < pos && pos < -array_[i].check) break;
         i = -array_[i].check;
@@ -79,7 +79,7 @@ class DoubleArrayInternal {
 
   void expand(size_t pos){
     if(pos < array_.size()) return;
-    size_t i = array_.size();
+    int i = static_cast<int>(array_.size());
     size_t n = array_.capacity();
     while(pos > n) n <<= 1;
     array_.reserve(n);
@@ -272,7 +272,7 @@ public:
     while(1){
       int t = array_[state].base;
       if(state != 1 && t < static_cast<int>(array_.size()) && array_[t].check == state){
-        res_len.push_back(std::distance(str,p));
+        res_len.push_back(static_cast<int>(std::distance(str,p)));
         res_id.push_back(-array_[t].base);
       }
       unsigned char c = *p;

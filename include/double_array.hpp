@@ -56,7 +56,7 @@ public:
     std::vector<int> res_len;
     std::vector<int> res_id;
     int current_idx = 0;
-    int str_len = strlen(str);
+    int str_len = static_cast<int>(strlen(str));
     while(current_idx < str_len){
       const char *current_ptr = str + current_idx;
       if(*current_ptr == '\0') return false;
@@ -74,7 +74,7 @@ public:
     std::vector<int> buf_res_len;
     std::vector<int> buf_res_id;
     int current_idx = 0;
-    int str_len = strlen(str);
+    int str_len = static_cast<int>(strlen(str));
     while(current_idx < str_len){
       buf_res_len.clear();
       buf_res_id.clear();
