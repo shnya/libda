@@ -84,7 +84,7 @@ class DoubleArrayInternal {
     while(pos > n) n <<= 1;
     array_.reserve(n);
     array_.resize(pos+1);
-    for(; i <= pos; i++){
+    for(; i <= static_cast<int>(pos); i++){
       array_[i].check = -(i+1);
     }
   }
