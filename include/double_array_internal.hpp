@@ -25,6 +25,11 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#ifdef __GLIBCXX__
+  #include <tr1/cstdint>
+#else
+  #include <cstdint>
+#endif
 
 
 class DoubleArrayInternal {
@@ -322,12 +327,21 @@ public:
     if(!ofs){
       return false;
     }
-    return save(ofs);
+    bool result = save(ofs);
+    ofs.close();
+    if(ofs.fail()) return false;
+    return result;
   }
 
   bool save(std::ostream &os) const {
-    os.write(reinterpret_cast<const char *>(&array_[0]),
-             array_.size()*sizeof(node));
+    int32_t *buffer = new int32_t[array_.size() * 2];
+    for(size_t i = 0; i < array_.size(); i++){
+      buffer[i * 2] = static_cast<int32_t>(array_[i].base);
+      buffer[i * 2 + 1] = static_cast<int32_t>(array_[i].check);
+    }
+    os.write(reinterpret_cast<const char *>(buffer),
+             2 * array_.size() * sizeof(int32_t));
+    delete[] buffer;
     if(os.fail()) return false;
     return true;
   }
@@ -337,16 +351,24 @@ public:
     if(!ifs){
       return false;
     }
-    return load(ifs);
+    bool result = load(ifs);
+    if(ifs.fail()) return false;
+    return result;
   }
 
   bool load(std::istream &is){
     size_t siz_ = static_cast<size_t>(is.seekg(0,std::ios::end).tellg());
     if(is.fail()) return false;
-    array_.resize(siz_ / sizeof(node));
+    array_.resize(siz_ / (sizeof(int32_t) * 2));
     is.seekg(0, std::ios::beg);
     if(is.fail()) return false;
-    is.read(reinterpret_cast<char *>(&array_[0]), array_.size()*sizeof(node));
+    int32_t *buffer = new int32_t[array_.size() * 2];
+    is.read(reinterpret_cast<char *>(buffer), 2 * array_.size() * sizeof(int32_t));
+    for(size_t i = 0; i < array_.size(); i++){
+      array_[i].base = static_cast<int>(buffer[i * 2]);
+      array_[i].check = static_cast<int>(buffer[i * 2 + 1]);
+    }
+    delete buffer;
     if(is.fail() && !is.eof()) return false;
     return true;
   }

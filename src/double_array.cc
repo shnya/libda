@@ -103,6 +103,8 @@ int main(int argc, char *argv[]){
     std::cout << result[i].first << " " << result[i].second << std::endl;
   }
 */
+  cout << "save: " << da.save("out.txt") << endl;
+  cout << "load: " << da.load("out.txt") << endl;
   std::vector<std::string> res;
   da.extract_all_matched("zoo", res);
   for(size_t i = 0; i < res.size(); i++){
